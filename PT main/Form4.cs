@@ -10,7 +10,8 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Collections;
 using Excel = Microsoft.Office.Interop.Excel;
-//using Microsoft.Interop.Excel;
+using System.IO;
+using ExcelDataReader;
 
 namespace PT_main
 {
@@ -39,6 +40,10 @@ namespace PT_main
             listBox1.DataSource = nList;
             label6.Text = "";
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView2.ReadOnly = true;
+            //dataGridView2.AllowUserToAddRows = false;
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -209,6 +214,59 @@ namespace PT_main
 
 
 
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //dataGridView2.Visible = false;
+            dataGridView2.DataSource = null;
+            dataGridView2.ColumnCount = 9;
+
+
+            Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
+            Excel.Workbook workbook = app.Workbooks.Open(@"d:\csharp.net-informations2.xls");
+            Excel.Worksheet worksheet = workbook.ActiveSheet;
+
+            int rcount = worksheet.UsedRange.Rows.Count;
+            
+            int i = 0;
+          
+            for (; i+1 < rcount; i++)
+            {
+                dataGridView2.Columns[0].HeaderText = worksheet.Cells[1, 1].Value;
+                dataGridView2.Columns[1].HeaderText = worksheet.Cells[1, 2].Value;
+                dataGridView2.Columns[2].HeaderText = worksheet.Cells[1, 3].Value;
+                dataGridView2.Columns[3].HeaderText = worksheet.Cells[1, 4].Value;
+                dataGridView2.Columns[4].HeaderText = worksheet.Cells[1, 5].Value;
+                dataGridView2.Columns[5].HeaderText = worksheet.Cells[1, 6].Value;
+                dataGridView2.Columns[6].HeaderText = worksheet.Cells[1, 7].Value;
+                dataGridView2.Columns[7].HeaderText = worksheet.Cells[1, 8].Value;
+                dataGridView2.Columns[8].HeaderText = worksheet.Cells[1, 9].Value;
+                // dataGridView2.Rows[0].Cells["Column1"].Value = worksheet.Cells[1, 1].Value;
+                //ataGridView1.Rows[i].Cells["Column2"].Value = worksheet.Cells[i + 2, 2].Value;
+                dataGridView2.Rows.Add(worksheet.Cells[i + 2, 1].Value, worksheet.Cells[i + 2, 2].Value,
+                    worksheet.Cells[i + 2, 3].Value, worksheet.Cells[i + 2, 4].Value,worksheet.Cells[i + 2, 5].Value,
+                    worksheet.Cells[i + 2, 6].Value, worksheet.Cells[i + 2, 7].Value, worksheet.Cells[i + 2, 8].Value,
+                    worksheet.Cells[i + 2, 9].Value);
+            }
+
+           
+        }
+
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
     }
