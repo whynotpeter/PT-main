@@ -1,0 +1,864 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PTprojectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="kadra">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="imie" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="nazwisko" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="255" />
+          <Property Name="aktywny" Type="bit" />
+        </EntityType>
+        <EntityType Name="kierunki">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="nazwa" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="wydzial_id" Type="int" />
+          <Property Name="tryb_stacjonarny" Type="bit" Nullable="false" />
+          <Property Name="rok_rozpoczecia" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="lista_obecnosci">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="student_id" Type="int" />
+          <Property Name="plan_id" Type="int" />
+          <Property Name="obecny" Type="bit" />
+          <Property Name="spozniony" Type="bit" />
+        </EntityType>
+        <EntityType Name="plan_zajec">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="sala_id" Type="int" />
+          <Property Name="przedmiot_id" Type="int" />
+          <Property Name="prowadzacy_id" Type="int" />
+          <Property Name="dzien" Type="date" />
+          <Property Name="odbyte" Type="bit" />
+        </EntityType>
+        <EntityType Name="prowadzacy_przedmiot">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="przedmiot_id" Type="int" />
+          <Property Name="prowadzacy_id" Type="int" />
+          <Property Name="aktywny" Type="bit" />
+        </EntityType>
+        <EntityType Name="przedmioty">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="nazwa" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="aktywny" Type="bit" />
+          <Property Name="typ" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="kierunek" Type="int" />
+          <Property Name="prowadzacy_id" Type="int" />
+        </EntityType>
+        <EntityType Name="sale">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="nr_sali" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="studenci">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="imie" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="nazwisko" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="255" />
+          <Property Name="aktywny" Type="bit" />
+          <Property Name="indeks" Type="int" />
+        </EntityType>
+        <EntityType Name="wydzialy">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="nazwa" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="zapisani_na_kierunek">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="student_id" Type="int" />
+          <Property Name="kierunek_id" Type="int" />
+          <Property Name="aktywny" Type="bit" />
+        </EntityType>
+        <EntityType Name="zapisani_na_przedmiot">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="student_id" Type="int" />
+          <Property Name="przedmiot_id" Type="int" />
+        </EntityType>
+        <Association Name="FK__kierunki__wydzia__1B0907CE">
+          <End Role="wydzialy" Type="Self.wydzialy" Multiplicity="0..1" />
+          <End Role="kierunki" Type="Self.kierunki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wydzialy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="kierunki">
+              <PropertyRef Name="wydzial_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__lista_obe__plan___37A5467C">
+          <End Role="plan_zajec" Type="Self.plan_zajec" Multiplicity="0..1" />
+          <End Role="lista_obecnosci" Type="Self.lista_obecnosci" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="plan_zajec">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="lista_obecnosci">
+              <PropertyRef Name="plan_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__lista_obe__stude__36B12243">
+          <End Role="studenci" Type="Self.studenci" Multiplicity="0..1" />
+          <End Role="lista_obecnosci" Type="Self.lista_obecnosci" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="studenci">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="lista_obecnosci">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__plan_zaje__prowa__32E0915F">
+          <End Role="prowadzacy_przedmiot" Type="Self.prowadzacy_przedmiot" Multiplicity="0..1" />
+          <End Role="plan_zajec" Type="Self.plan_zajec" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="prowadzacy_przedmiot">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="plan_zajec">
+              <PropertyRef Name="prowadzacy_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__plan_zaje__przed__31EC6D26">
+          <End Role="przedmioty" Type="Self.przedmioty" Multiplicity="0..1" />
+          <End Role="plan_zajec" Type="Self.plan_zajec" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="przedmioty">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="plan_zajec">
+              <PropertyRef Name="przedmiot_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__plan_zaje__sala___30F848ED">
+          <End Role="sale" Type="Self.sale" Multiplicity="0..1" />
+          <End Role="plan_zajec" Type="Self.plan_zajec" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sale">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="plan_zajec">
+              <PropertyRef Name="sala_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__prowadzac__prowa__2B3F6F97">
+          <End Role="kadra" Type="Self.kadra" Multiplicity="0..1" />
+          <End Role="prowadzacy_przedmiot" Type="Self.prowadzacy_przedmiot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kadra">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="prowadzacy_przedmiot">
+              <PropertyRef Name="prowadzacy_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__prowadzac__przed__2A4B4B5E">
+          <End Role="przedmioty" Type="Self.przedmioty" Multiplicity="0..1" />
+          <End Role="prowadzacy_przedmiot" Type="Self.prowadzacy_przedmiot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="przedmioty">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="prowadzacy_przedmiot">
+              <PropertyRef Name="przedmiot_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__przedmiot__kieru__1ED998B2">
+          <End Role="kierunki" Type="Self.kierunki" Multiplicity="0..1" />
+          <End Role="przedmioty" Type="Self.przedmioty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kierunki">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="przedmioty">
+              <PropertyRef Name="kierunek" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__przedmiot__prowa__47DBAE45">
+          <End Role="kadra" Type="Self.kadra" Multiplicity="0..1" />
+          <End Role="przedmioty" Type="Self.przedmioty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kadra">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="przedmioty">
+              <PropertyRef Name="prowadzacy_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zapisani___kieru__22AA2996">
+          <End Role="kierunki" Type="Self.kierunki" Multiplicity="0..1" />
+          <End Role="zapisani_na_kierunek" Type="Self.zapisani_na_kierunek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kierunki">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="zapisani_na_kierunek">
+              <PropertyRef Name="kierunek_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zapisani___przed__276EDEB3">
+          <End Role="przedmioty" Type="Self.przedmioty" Multiplicity="0..1" />
+          <End Role="zapisani_na_przedmiot" Type="Self.zapisani_na_przedmiot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="przedmioty">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="zapisani_na_przedmiot">
+              <PropertyRef Name="przedmiot_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zapisani___stude__21B6055D">
+          <End Role="studenci" Type="Self.studenci" Multiplicity="0..1" />
+          <End Role="zapisani_na_kierunek" Type="Self.zapisani_na_kierunek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="studenci">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="zapisani_na_kierunek">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zapisani___stude__267ABA7A">
+          <End Role="studenci" Type="Self.studenci" Multiplicity="0..1" />
+          <End Role="zapisani_na_przedmiot" Type="Self.zapisani_na_przedmiot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="studenci">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="zapisani_na_przedmiot">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PTprojectModelStoreContainer">
+          <EntitySet Name="kadra" EntityType="Self.kadra" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="kierunki" EntityType="Self.kierunki" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="lista_obecnosci" EntityType="Self.lista_obecnosci" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="plan_zajec" EntityType="Self.plan_zajec" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="prowadzacy_przedmiot" EntityType="Self.prowadzacy_przedmiot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="przedmioty" EntityType="Self.przedmioty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sale" EntityType="Self.sale" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="studenci" EntityType="Self.studenci" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="wydzialy" EntityType="Self.wydzialy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="zapisani_na_kierunek" EntityType="Self.zapisani_na_kierunek" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="zapisani_na_przedmiot" EntityType="Self.zapisani_na_przedmiot" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__kierunki__wydzia__1B0907CE" Association="Self.FK__kierunki__wydzia__1B0907CE">
+            <End Role="wydzialy" EntitySet="wydzialy" />
+            <End Role="kierunki" EntitySet="kierunki" />
+          </AssociationSet>
+          <AssociationSet Name="FK__lista_obe__plan___37A5467C" Association="Self.FK__lista_obe__plan___37A5467C">
+            <End Role="plan_zajec" EntitySet="plan_zajec" />
+            <End Role="lista_obecnosci" EntitySet="lista_obecnosci" />
+          </AssociationSet>
+          <AssociationSet Name="FK__lista_obe__stude__36B12243" Association="Self.FK__lista_obe__stude__36B12243">
+            <End Role="studenci" EntitySet="studenci" />
+            <End Role="lista_obecnosci" EntitySet="lista_obecnosci" />
+          </AssociationSet>
+          <AssociationSet Name="FK__plan_zaje__prowa__32E0915F" Association="Self.FK__plan_zaje__prowa__32E0915F">
+            <End Role="prowadzacy_przedmiot" EntitySet="prowadzacy_przedmiot" />
+            <End Role="plan_zajec" EntitySet="plan_zajec" />
+          </AssociationSet>
+          <AssociationSet Name="FK__plan_zaje__przed__31EC6D26" Association="Self.FK__plan_zaje__przed__31EC6D26">
+            <End Role="przedmioty" EntitySet="przedmioty" />
+            <End Role="plan_zajec" EntitySet="plan_zajec" />
+          </AssociationSet>
+          <AssociationSet Name="FK__plan_zaje__sala___30F848ED" Association="Self.FK__plan_zaje__sala___30F848ED">
+            <End Role="sale" EntitySet="sale" />
+            <End Role="plan_zajec" EntitySet="plan_zajec" />
+          </AssociationSet>
+          <AssociationSet Name="FK__prowadzac__prowa__2B3F6F97" Association="Self.FK__prowadzac__prowa__2B3F6F97">
+            <End Role="kadra" EntitySet="kadra" />
+            <End Role="prowadzacy_przedmiot" EntitySet="prowadzacy_przedmiot" />
+          </AssociationSet>
+          <AssociationSet Name="FK__prowadzac__przed__2A4B4B5E" Association="Self.FK__prowadzac__przed__2A4B4B5E">
+            <End Role="przedmioty" EntitySet="przedmioty" />
+            <End Role="prowadzacy_przedmiot" EntitySet="prowadzacy_przedmiot" />
+          </AssociationSet>
+          <AssociationSet Name="FK__przedmiot__kieru__1ED998B2" Association="Self.FK__przedmiot__kieru__1ED998B2">
+            <End Role="kierunki" EntitySet="kierunki" />
+            <End Role="przedmioty" EntitySet="przedmioty" />
+          </AssociationSet>
+          <AssociationSet Name="FK__przedmiot__prowa__47DBAE45" Association="Self.FK__przedmiot__prowa__47DBAE45">
+            <End Role="kadra" EntitySet="kadra" />
+            <End Role="przedmioty" EntitySet="przedmioty" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zapisani___kieru__22AA2996" Association="Self.FK__zapisani___kieru__22AA2996">
+            <End Role="kierunki" EntitySet="kierunki" />
+            <End Role="zapisani_na_kierunek" EntitySet="zapisani_na_kierunek" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zapisani___przed__276EDEB3" Association="Self.FK__zapisani___przed__276EDEB3">
+            <End Role="przedmioty" EntitySet="przedmioty" />
+            <End Role="zapisani_na_przedmiot" EntitySet="zapisani_na_przedmiot" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zapisani___stude__21B6055D" Association="Self.FK__zapisani___stude__21B6055D">
+            <End Role="studenci" EntitySet="studenci" />
+            <End Role="zapisani_na_kierunek" EntitySet="zapisani_na_kierunek" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zapisani___stude__267ABA7A" Association="Self.FK__zapisani___stude__267ABA7A">
+            <End Role="studenci" EntitySet="studenci" />
+            <End Role="zapisani_na_przedmiot" EntitySet="zapisani_na_przedmiot" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PTprojectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="kadra">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="imie" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nazwisko" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="aktywny" Type="Boolean" />
+          <NavigationProperty Name="prowadzacy_przedmiot" Relationship="Self.FK__prowadzac__prowa__2B3F6F97" FromRole="kadra" ToRole="prowadzacy_przedmiot" />
+          <NavigationProperty Name="przedmioty" Relationship="Self.FK__przedmiot__prowa__47DBAE45" FromRole="kadra" ToRole="przedmioty" />
+        </EntityType>
+        <EntityType Name="kierunki">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="nazwa" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="wydzial_id" Type="Int32" />
+          <Property Name="tryb_stacjonarny" Type="Boolean" Nullable="false" />
+          <Property Name="rok_rozpoczecia" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="wydzialy" Relationship="Self.FK__kierunki__wydzia__1B0907CE" FromRole="kierunki" ToRole="wydzialy" />
+          <NavigationProperty Name="przedmioty" Relationship="Self.FK__przedmiot__kieru__1ED998B2" FromRole="kierunki" ToRole="przedmioty" />
+          <NavigationProperty Name="zapisani_na_kierunek" Relationship="Self.FK__zapisani___kieru__22AA2996" FromRole="kierunki" ToRole="zapisani_na_kierunek" />
+        </EntityType>
+        <EntityType Name="lista_obecnosci">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="student_id" Type="Int32" />
+          <Property Name="plan_id" Type="Int32" />
+          <Property Name="obecny" Type="Boolean" />
+          <Property Name="spozniony" Type="Boolean" />
+          <NavigationProperty Name="plan_zajec" Relationship="Self.FK__lista_obe__plan___37A5467C" FromRole="lista_obecnosci" ToRole="plan_zajec" />
+          <NavigationProperty Name="studenci" Relationship="Self.FK__lista_obe__stude__36B12243" FromRole="lista_obecnosci" ToRole="studenci" />
+        </EntityType>
+        <EntityType Name="plan_zajec">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="sala_id" Type="Int32" />
+          <Property Name="przedmiot_id" Type="Int32" />
+          <Property Name="prowadzacy_id" Type="Int32" />
+          <Property Name="dzien" Type="DateTime" Precision="0" />
+          <Property Name="odbyte" Type="Boolean" />
+          <NavigationProperty Name="lista_obecnosci" Relationship="Self.FK__lista_obe__plan___37A5467C" FromRole="plan_zajec" ToRole="lista_obecnosci" />
+          <NavigationProperty Name="prowadzacy_przedmiot" Relationship="Self.FK__plan_zaje__prowa__32E0915F" FromRole="plan_zajec" ToRole="prowadzacy_przedmiot" />
+          <NavigationProperty Name="przedmioty" Relationship="Self.FK__plan_zaje__przed__31EC6D26" FromRole="plan_zajec" ToRole="przedmioty" />
+          <NavigationProperty Name="sale" Relationship="Self.FK__plan_zaje__sala___30F848ED" FromRole="plan_zajec" ToRole="sale" />
+        </EntityType>
+        <EntityType Name="prowadzacy_przedmiot">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="przedmiot_id" Type="Int32" />
+          <Property Name="prowadzacy_id" Type="Int32" />
+          <Property Name="aktywny" Type="Boolean" />
+          <NavigationProperty Name="kadra" Relationship="Self.FK__prowadzac__prowa__2B3F6F97" FromRole="prowadzacy_przedmiot" ToRole="kadra" />
+          <NavigationProperty Name="plan_zajec" Relationship="Self.FK__plan_zaje__prowa__32E0915F" FromRole="prowadzacy_przedmiot" ToRole="plan_zajec" />
+          <NavigationProperty Name="przedmioty" Relationship="Self.FK__prowadzac__przed__2A4B4B5E" FromRole="prowadzacy_przedmiot" ToRole="przedmioty" />
+        </EntityType>
+        <EntityType Name="przedmioty">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="nazwa" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="aktywny" Type="Boolean" />
+          <Property Name="typ" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="kierunek" Type="Int32" />
+          <Property Name="prowadzacy_id" Type="Int32" />
+          <NavigationProperty Name="kadra" Relationship="Self.FK__przedmiot__prowa__47DBAE45" FromRole="przedmioty" ToRole="kadra" />
+          <NavigationProperty Name="kierunki" Relationship="Self.FK__przedmiot__kieru__1ED998B2" FromRole="przedmioty" ToRole="kierunki" />
+          <NavigationProperty Name="plan_zajec" Relationship="Self.FK__plan_zaje__przed__31EC6D26" FromRole="przedmioty" ToRole="plan_zajec" />
+          <NavigationProperty Name="prowadzacy_przedmiot" Relationship="Self.FK__prowadzac__przed__2A4B4B5E" FromRole="przedmioty" ToRole="prowadzacy_przedmiot" />
+          <NavigationProperty Name="zapisani_na_przedmiot" Relationship="Self.FK__zapisani___przed__276EDEB3" FromRole="przedmioty" ToRole="zapisani_na_przedmiot" />
+        </EntityType>
+        <EntityType Name="sale">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="nr_sali" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="plan_zajec" Relationship="Self.FK__plan_zaje__sala___30F848ED" FromRole="sale" ToRole="plan_zajec" />
+        </EntityType>
+        <EntityType Name="studenci">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="imie" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nazwisko" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="aktywny" Type="Boolean" />
+          <Property Name="indeks" Type="Int32" />
+          <NavigationProperty Name="lista_obecnosci" Relationship="Self.FK__lista_obe__stude__36B12243" FromRole="studenci" ToRole="lista_obecnosci" />
+          <NavigationProperty Name="zapisani_na_kierunek" Relationship="Self.FK__zapisani___stude__21B6055D" FromRole="studenci" ToRole="zapisani_na_kierunek" />
+          <NavigationProperty Name="zapisani_na_przedmiot" Relationship="Self.FK__zapisani___stude__267ABA7A" FromRole="studenci" ToRole="zapisani_na_przedmiot" />
+        </EntityType>
+        <EntityType Name="wydzialy">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="nazwa" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="kierunki" Relationship="Self.FK__kierunki__wydzia__1B0907CE" FromRole="wydzialy" ToRole="kierunki" />
+        </EntityType>
+        <EntityType Name="zapisani_na_kierunek">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="student_id" Type="Int32" />
+          <Property Name="kierunek_id" Type="Int32" />
+          <Property Name="aktywny" Type="Boolean" />
+          <NavigationProperty Name="kierunki" Relationship="Self.FK__zapisani___kieru__22AA2996" FromRole="zapisani_na_kierunek" ToRole="kierunki" />
+          <NavigationProperty Name="studenci" Relationship="Self.FK__zapisani___stude__21B6055D" FromRole="zapisani_na_kierunek" ToRole="studenci" />
+        </EntityType>
+        <EntityType Name="zapisani_na_przedmiot">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="student_id" Type="Int32" />
+          <Property Name="przedmiot_id" Type="Int32" />
+          <NavigationProperty Name="przedmioty" Relationship="Self.FK__zapisani___przed__276EDEB3" FromRole="zapisani_na_przedmiot" ToRole="przedmioty" />
+          <NavigationProperty Name="studenci" Relationship="Self.FK__zapisani___stude__267ABA7A" FromRole="zapisani_na_przedmiot" ToRole="studenci" />
+        </EntityType>
+        <Association Name="FK__prowadzac__prowa__2B3F6F97">
+          <End Role="kadra" Type="Self.kadra" Multiplicity="0..1" />
+          <End Role="prowadzacy_przedmiot" Type="Self.prowadzacy_przedmiot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kadra">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="prowadzacy_przedmiot">
+              <PropertyRef Name="prowadzacy_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__przedmiot__prowa__47DBAE45">
+          <End Role="kadra" Type="Self.kadra" Multiplicity="0..1" />
+          <End Role="przedmioty" Type="Self.przedmioty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kadra">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="przedmioty">
+              <PropertyRef Name="prowadzacy_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__kierunki__wydzia__1B0907CE">
+          <End Role="wydzialy" Type="Self.wydzialy" Multiplicity="0..1" />
+          <End Role="kierunki" Type="Self.kierunki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="wydzialy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="kierunki">
+              <PropertyRef Name="wydzial_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__przedmiot__kieru__1ED998B2">
+          <End Role="kierunki" Type="Self.kierunki" Multiplicity="0..1" />
+          <End Role="przedmioty" Type="Self.przedmioty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kierunki">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="przedmioty">
+              <PropertyRef Name="kierunek" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zapisani___kieru__22AA2996">
+          <End Role="kierunki" Type="Self.kierunki" Multiplicity="0..1" />
+          <End Role="zapisani_na_kierunek" Type="Self.zapisani_na_kierunek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kierunki">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="zapisani_na_kierunek">
+              <PropertyRef Name="kierunek_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__lista_obe__plan___37A5467C">
+          <End Role="plan_zajec" Type="Self.plan_zajec" Multiplicity="0..1" />
+          <End Role="lista_obecnosci" Type="Self.lista_obecnosci" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="plan_zajec">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="lista_obecnosci">
+              <PropertyRef Name="plan_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__lista_obe__stude__36B12243">
+          <End Role="studenci" Type="Self.studenci" Multiplicity="0..1" />
+          <End Role="lista_obecnosci" Type="Self.lista_obecnosci" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="studenci">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="lista_obecnosci">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__plan_zaje__prowa__32E0915F">
+          <End Role="prowadzacy_przedmiot" Type="Self.prowadzacy_przedmiot" Multiplicity="0..1" />
+          <End Role="plan_zajec" Type="Self.plan_zajec" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="prowadzacy_przedmiot">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="plan_zajec">
+              <PropertyRef Name="prowadzacy_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__plan_zaje__przed__31EC6D26">
+          <End Role="przedmioty" Type="Self.przedmioty" Multiplicity="0..1" />
+          <End Role="plan_zajec" Type="Self.plan_zajec" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="przedmioty">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="plan_zajec">
+              <PropertyRef Name="przedmiot_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__plan_zaje__sala___30F848ED">
+          <End Role="sale" Type="Self.sale" Multiplicity="0..1" />
+          <End Role="plan_zajec" Type="Self.plan_zajec" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sale">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="plan_zajec">
+              <PropertyRef Name="sala_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__prowadzac__przed__2A4B4B5E">
+          <End Role="przedmioty" Type="Self.przedmioty" Multiplicity="0..1" />
+          <End Role="prowadzacy_przedmiot" Type="Self.prowadzacy_przedmiot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="przedmioty">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="prowadzacy_przedmiot">
+              <PropertyRef Name="przedmiot_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zapisani___przed__276EDEB3">
+          <End Role="przedmioty" Type="Self.przedmioty" Multiplicity="0..1" />
+          <End Role="zapisani_na_przedmiot" Type="Self.zapisani_na_przedmiot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="przedmioty">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="zapisani_na_przedmiot">
+              <PropertyRef Name="przedmiot_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zapisani___stude__21B6055D">
+          <End Role="studenci" Type="Self.studenci" Multiplicity="0..1" />
+          <End Role="zapisani_na_kierunek" Type="Self.zapisani_na_kierunek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="studenci">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="zapisani_na_kierunek">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__zapisani___stude__267ABA7A">
+          <End Role="studenci" Type="Self.studenci" Multiplicity="0..1" />
+          <End Role="zapisani_na_przedmiot" Type="Self.zapisani_na_przedmiot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="studenci">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="zapisani_na_przedmiot">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PTprojectEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="kadra" EntityType="Self.kadra" />
+          <EntitySet Name="kierunki" EntityType="Self.kierunki" />
+          <EntitySet Name="lista_obecnosci" EntityType="Self.lista_obecnosci" />
+          <EntitySet Name="plan_zajec" EntityType="Self.plan_zajec" />
+          <EntitySet Name="prowadzacy_przedmiot" EntityType="Self.prowadzacy_przedmiot" />
+          <EntitySet Name="przedmioty" EntityType="Self.przedmioty" />
+          <EntitySet Name="sale" EntityType="Self.sale" />
+          <EntitySet Name="studenci" EntityType="Self.studenci" />
+          <EntitySet Name="wydzialy" EntityType="Self.wydzialy" />
+          <EntitySet Name="zapisani_na_kierunek" EntityType="Self.zapisani_na_kierunek" />
+          <EntitySet Name="zapisani_na_przedmiot" EntityType="Self.zapisani_na_przedmiot" />
+          <AssociationSet Name="FK__prowadzac__prowa__2B3F6F97" Association="Self.FK__prowadzac__prowa__2B3F6F97">
+            <End Role="kadra" EntitySet="kadra" />
+            <End Role="prowadzacy_przedmiot" EntitySet="prowadzacy_przedmiot" />
+          </AssociationSet>
+          <AssociationSet Name="FK__przedmiot__prowa__47DBAE45" Association="Self.FK__przedmiot__prowa__47DBAE45">
+            <End Role="kadra" EntitySet="kadra" />
+            <End Role="przedmioty" EntitySet="przedmioty" />
+          </AssociationSet>
+          <AssociationSet Name="FK__kierunki__wydzia__1B0907CE" Association="Self.FK__kierunki__wydzia__1B0907CE">
+            <End Role="wydzialy" EntitySet="wydzialy" />
+            <End Role="kierunki" EntitySet="kierunki" />
+          </AssociationSet>
+          <AssociationSet Name="FK__przedmiot__kieru__1ED998B2" Association="Self.FK__przedmiot__kieru__1ED998B2">
+            <End Role="kierunki" EntitySet="kierunki" />
+            <End Role="przedmioty" EntitySet="przedmioty" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zapisani___kieru__22AA2996" Association="Self.FK__zapisani___kieru__22AA2996">
+            <End Role="kierunki" EntitySet="kierunki" />
+            <End Role="zapisani_na_kierunek" EntitySet="zapisani_na_kierunek" />
+          </AssociationSet>
+          <AssociationSet Name="FK__lista_obe__plan___37A5467C" Association="Self.FK__lista_obe__plan___37A5467C">
+            <End Role="plan_zajec" EntitySet="plan_zajec" />
+            <End Role="lista_obecnosci" EntitySet="lista_obecnosci" />
+          </AssociationSet>
+          <AssociationSet Name="FK__lista_obe__stude__36B12243" Association="Self.FK__lista_obe__stude__36B12243">
+            <End Role="studenci" EntitySet="studenci" />
+            <End Role="lista_obecnosci" EntitySet="lista_obecnosci" />
+          </AssociationSet>
+          <AssociationSet Name="FK__plan_zaje__prowa__32E0915F" Association="Self.FK__plan_zaje__prowa__32E0915F">
+            <End Role="prowadzacy_przedmiot" EntitySet="prowadzacy_przedmiot" />
+            <End Role="plan_zajec" EntitySet="plan_zajec" />
+          </AssociationSet>
+          <AssociationSet Name="FK__plan_zaje__przed__31EC6D26" Association="Self.FK__plan_zaje__przed__31EC6D26">
+            <End Role="przedmioty" EntitySet="przedmioty" />
+            <End Role="plan_zajec" EntitySet="plan_zajec" />
+          </AssociationSet>
+          <AssociationSet Name="FK__plan_zaje__sala___30F848ED" Association="Self.FK__plan_zaje__sala___30F848ED">
+            <End Role="sale" EntitySet="sale" />
+            <End Role="plan_zajec" EntitySet="plan_zajec" />
+          </AssociationSet>
+          <AssociationSet Name="FK__prowadzac__przed__2A4B4B5E" Association="Self.FK__prowadzac__przed__2A4B4B5E">
+            <End Role="przedmioty" EntitySet="przedmioty" />
+            <End Role="prowadzacy_przedmiot" EntitySet="prowadzacy_przedmiot" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zapisani___przed__276EDEB3" Association="Self.FK__zapisani___przed__276EDEB3">
+            <End Role="przedmioty" EntitySet="przedmioty" />
+            <End Role="zapisani_na_przedmiot" EntitySet="zapisani_na_przedmiot" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zapisani___stude__21B6055D" Association="Self.FK__zapisani___stude__21B6055D">
+            <End Role="studenci" EntitySet="studenci" />
+            <End Role="zapisani_na_kierunek" EntitySet="zapisani_na_kierunek" />
+          </AssociationSet>
+          <AssociationSet Name="FK__zapisani___stude__267ABA7A" Association="Self.FK__zapisani___stude__267ABA7A">
+            <End Role="studenci" EntitySet="studenci" />
+            <End Role="zapisani_na_przedmiot" EntitySet="zapisani_na_przedmiot" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PTprojectModelStoreContainer" CdmEntityContainer="PTprojectEntities">
+          <EntitySetMapping Name="kadra">
+            <EntityTypeMapping TypeName="PTprojectModel.kadra">
+              <MappingFragment StoreEntitySet="kadra">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="imie" ColumnName="imie" />
+                <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="aktywny" ColumnName="aktywny" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kierunki">
+            <EntityTypeMapping TypeName="PTprojectModel.kierunki">
+              <MappingFragment StoreEntitySet="kierunki">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+                <ScalarProperty Name="wydzial_id" ColumnName="wydzial_id" />
+                <ScalarProperty Name="tryb_stacjonarny" ColumnName="tryb_stacjonarny" />
+                <ScalarProperty Name="rok_rozpoczecia" ColumnName="rok_rozpoczecia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lista_obecnosci">
+            <EntityTypeMapping TypeName="PTprojectModel.lista_obecnosci">
+              <MappingFragment StoreEntitySet="lista_obecnosci">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="plan_id" ColumnName="plan_id" />
+                <ScalarProperty Name="obecny" ColumnName="obecny" />
+                <ScalarProperty Name="spozniony" ColumnName="spozniony" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="plan_zajec">
+            <EntityTypeMapping TypeName="PTprojectModel.plan_zajec">
+              <MappingFragment StoreEntitySet="plan_zajec">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="sala_id" ColumnName="sala_id" />
+                <ScalarProperty Name="przedmiot_id" ColumnName="przedmiot_id" />
+                <ScalarProperty Name="prowadzacy_id" ColumnName="prowadzacy_id" />
+                <ScalarProperty Name="dzien" ColumnName="dzien" />
+                <ScalarProperty Name="odbyte" ColumnName="odbyte" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="prowadzacy_przedmiot">
+            <EntityTypeMapping TypeName="PTprojectModel.prowadzacy_przedmiot">
+              <MappingFragment StoreEntitySet="prowadzacy_przedmiot">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="przedmiot_id" ColumnName="przedmiot_id" />
+                <ScalarProperty Name="prowadzacy_id" ColumnName="prowadzacy_id" />
+                <ScalarProperty Name="aktywny" ColumnName="aktywny" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="przedmioty">
+            <EntityTypeMapping TypeName="PTprojectModel.przedmioty">
+              <MappingFragment StoreEntitySet="przedmioty">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+                <ScalarProperty Name="aktywny" ColumnName="aktywny" />
+                <ScalarProperty Name="typ" ColumnName="typ" />
+                <ScalarProperty Name="kierunek" ColumnName="kierunek" />
+                <ScalarProperty Name="prowadzacy_id" ColumnName="prowadzacy_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sale">
+            <EntityTypeMapping TypeName="PTprojectModel.sale">
+              <MappingFragment StoreEntitySet="sale">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="nr_sali" ColumnName="nr_sali" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="studenci">
+            <EntityTypeMapping TypeName="PTprojectModel.studenci">
+              <MappingFragment StoreEntitySet="studenci">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="imie" ColumnName="imie" />
+                <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="aktywny" ColumnName="aktywny" />
+                <ScalarProperty Name="indeks" ColumnName="indeks" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="wydzialy">
+            <EntityTypeMapping TypeName="PTprojectModel.wydzialy">
+              <MappingFragment StoreEntitySet="wydzialy">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="zapisani_na_kierunek">
+            <EntityTypeMapping TypeName="PTprojectModel.zapisani_na_kierunek">
+              <MappingFragment StoreEntitySet="zapisani_na_kierunek">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="kierunek_id" ColumnName="kierunek_id" />
+                <ScalarProperty Name="aktywny" ColumnName="aktywny" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="zapisani_na_przedmiot">
+            <EntityTypeMapping TypeName="PTprojectModel.zapisani_na_przedmiot">
+              <MappingFragment StoreEntitySet="zapisani_na_przedmiot">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="przedmiot_id" ColumnName="przedmiot_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

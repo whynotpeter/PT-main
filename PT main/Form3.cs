@@ -32,9 +32,11 @@ namespace PT_main
         DataSet sds = new DataSet();
         DataSet sds2 = new DataSet();
         DataTable stable;
-       // private BindingSource bindingSource1 = new BindingSource();
+        // private BindingSource bindingSource1 = new BindingSource();
 
-        public Form3(string username)
+        private login _ParentForm;
+
+        public Form3(string username, login parentForm)
         {
             InitializeComponent();
 

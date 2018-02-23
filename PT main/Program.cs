@@ -14,12 +14,13 @@ namespace PT_main
         [STAThread]
         static void Main()
         {
+            //login c=new login();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new login());
+            Application.Run(new login());
             //Application.Run(new Form1("pw"));
             //Application.Run(new Form3("122022"));
-            Application.Run(new Form4("admin"));
+            //Application.Run(new Form4("admin"));
 
         }
     }

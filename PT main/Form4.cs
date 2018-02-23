@@ -251,7 +251,11 @@ namespace PT_main
                     worksheet.Cells[i + 2, 9].Value);
             }
 
-           
+
+
+            workbook.Close();
+            app.Quit();
+
         }
 
 

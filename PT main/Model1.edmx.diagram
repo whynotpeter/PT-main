@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fbaabb5aa23e45fd9d6402f63afa8a38" Name="Diagram1">
+        <EntityTypeShape EntityType="PTprojectModel.kadra" Width="1.5" PointX="1.875" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PTprojectModel.kierunki" Width="1.5" PointX="4" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PTprojectModel.lista_obecnosci" Width="1.5" PointX="8.5" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PTprojectModel.plan_zajec" Width="1.5" PointX="8.5" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PTprojectModel.prowadzacy_przedmiot" Width="1.5" PointX="1.875" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="PTprojectModel.przedmioty" Width="1.5" PointX="4" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PTprojectModel.sale" Width="1.5" PointX="6.375" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PTprojectModel.studenci" Width="1.5" PointX="8.5" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PTprojectModel.wydzialy" Width="1.5" PointX="1.875" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PTprojectModel.zapisani_na_kierunek" Width="1.5" PointX="6.25" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PTprojectModel.zapisani_na_przedmiot" Width="1.5" PointX="6.375" PointY="3.875" IsExpanded="true" />
+        <AssociationConnector Association="PTprojectModel.FK__prowadzac__prowa__2B3F6F97" ManuallyRouted="false" />
+        <AssociationConnector Association="PTprojectModel.FK__przedmiot__prowa__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="PTprojectModel.FK__kierunki__wydzia__1B0907CE" ManuallyRouted="false" />
+        <AssociationConnector Association="PTprojectModel.FK__przedmiot__kieru__1ED998B2" ManuallyRouted="false" />
+        <AssociationConnector Association="PTprojectModel.FK__zapisani___kieru__22AA2996" ManuallyRouted="false" />
+        <AssociationConnector Association="PTprojectModel.FK__lista_obe__plan___37A5467C" ManuallyRouted="false" />
+        <AssociationConnector Association="PTprojectModel.FK__lista_obe__stude__36B12243" ManuallyRouted="false" />
+        <AssociationConnector Association="PTprojectModel.FK__plan_zaje__prowa__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="PTprojectModel.FK__plan_zaje__przed__31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="PTprojectModel.FK__plan_zaje__sala___30F848ED" ManuallyRouted="false" />
+        <AssociationConnector Association="PTprojectModel.FK__prowadzac__przed__2A4B4B5E" ManuallyRouted="false" />
+        <AssociationConnector Association="PTprojectModel.FK__zapisani___przed__276EDEB3" ManuallyRouted="false" />
+        <AssociationConnector Association="PTprojectModel.FK__zapisani___stude__21B6055D" ManuallyRouted="false" />
+        <AssociationConnector Association="PTprojectModel.FK__zapisani___stude__267ABA7A" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

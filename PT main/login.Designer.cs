@@ -58,6 +58,7 @@
             this.textBox_Pass.Name = "textBox_Pass";
             this.textBox_Pass.Size = new System.Drawing.Size(151, 20);
             this.textBox_Pass.TabIndex = 2;
+            this.textBox_Pass.UseSystemPasswordChar = true;
             // 
             // label_user
             // 

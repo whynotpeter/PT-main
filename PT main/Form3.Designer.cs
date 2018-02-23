@@ -99,7 +99,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.nazwa_studenta);
             this.Name = "Form3";
-            this.Text = "Form3";
+            this.Text = "Panel Studenta";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);

@@ -30,9 +30,9 @@ namespace PT_main
         static DataSet cofnijSet = new DataSet();
         private BindingSource bindingSource1 = new BindingSource();
 
-       // int i = 0;
+        // int i = 0;
 
-    
+        private login _ParentForm;
         public event EventHandler updateEvent;
 
 
